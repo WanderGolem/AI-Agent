@@ -1,8 +1,12 @@
 import os
+import argparse
 from dotenv import load_dotenv
 from google import genai
 
 def main():
+    parser = argparse.ArgumentParser(description="Chatbot")
+    parser.add_argument("user_prompt", type=str, help="User prompt")
+    args = parser.parse_args()
 
     load_dotenv()
 
@@ -12,16 +16,16 @@ def main():
         raise RuntimeError("no API-Key is set")
 
     client = genai.Client(api_key=api_key)
-    user_promt = "Why is Boot.dev such a great place to learn backend development? Use one paragraph maximum."
+
     response = client.models.generate_content(
         model="gemini-2.5-flash", 
-        contents=user_promt
+        contents=args.user_prompt
     )
 
     if response.usage_metadata == None:
         raise RuntimeError("API request failed")
     
-    print(f"User Promt: {user_promt}")
+    print(f"User Promt: {args.user_prompt}")
     print(f"Prompt tokens: {response.usage_metadata.prompt_token_count}")
     print(f"Response tokens: {response.usage_metadata.candidates_token_count}")
     print("Response:")
