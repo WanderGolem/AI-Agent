@@ -5,7 +5,6 @@ build/
 dist/
 wheels/
 *.egg-info
-calculator/pkg/__pycache__
 
 # Virtual environments
 .venv
